@@ -1,0 +1,23 @@
+body {
+  background: url(https://i.pinimg.com/736x/f6/a4/11/f6a41137292678f3ed5974be8c8b6e81.jpg);
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+}
+
+.weather-box {
+  background-color: rgb(245, 216, 137);
+  padding: 40px;
+  border-radius: 10px;
+  text-align: center;
+  margin-bottom: 20px;
+  border: 3px solid #f0ad4e;
+}
