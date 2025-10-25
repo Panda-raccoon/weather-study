@@ -15,9 +15,47 @@ body {
 
 .weather-box {
   background-color: rgb(245, 216, 137);
-  padding: 40px;
-  border-radius: 10px;
+  padding: 40px 80px;
+  border-radius: 20px;
   text-align: center;
   margin-bottom: 20px;
   border: 3px solid #f0ad4e;
+}
+
+.weather-button {
+  display: flex;
+  gap: 5px;
+  /* border: 3px solid #5b3807; */
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* 활성화된 버튼 스타일 (warning) */
+.weather-button .btn-warning {
+  background-color: #ffc107 !important;
+  border-color: #ffc107 !important;
+  /* box-shadow: 0 0 15px rgba(255, 193, 7, 0.6); */
+  transform: scale(1.05);
+  transition: all 0.3s ease;
+}
+
+/* 비활성화된 버튼 스타일 (secondary) */
+.weather-button .btn-secondary {
+  background-color: #6c757d;
+  border-color: #6c757d;
+  transition: all 0.3s ease;
+}
+
+/* 버튼 호버 효과 */
+.weather-button .btn:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 버튼 기본 스타일 */
+.weather-button .btn {
+  border-radius: 25px;
+  padding: 10px 20px;
+  font-weight: bold;
+  text-transform: capitalize;
 }
