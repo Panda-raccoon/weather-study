@@ -19,38 +19,74 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [city, setCity] = useState("");
   const [activeButton, setActiveButton] = useState("current");
-  // const [apiError, setApiError] = useState("");
+  const [apiError, setApiError] = useState(""); // 에러 상태 추가
 
   // 현재위치정보를 가져오는 함수
   const getCurrentLocation = () => {
     setActiveButton("current");
-    navigator.geolocation.getCurrentPosition((position) => {
-      let lat = position.coords.latitude;
-      let lon = position.coords.longitude;
-      getWeatherByCurrentLocation(lat, lon);
-    });
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        let lat = position.coords.latitude;
+        let lon = position.coords.longitude;
+        getWeatherByCurrentLocation(lat, lon);
+      },
+      (error) => {
+        // 위치 권한 거부나 에러 처리
+        console.error("위치 정보를 가져올 수 없습니다:", error);
+        setApiError(
+          "위치 권한이 거부되어 기본 도시(서울)의 날씨를 표시합니다."
+        );
+        setCity("seoul");
+      }
+    );
   };
 
   // 자바스크립트 공부하기.....
   const getWeatherByCurrentLocation = async (lat, lon) => {
+    setApiError(""); // 에러 초기화
     let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=4c972f331d80f188bdbb3159463aa34c&units=metric`;
     setLoading(true);
-    let response = await fetch(url); //await을 쓰고 싶으면, async함수 안에서 써야함
-    let data = await response.json();
-    // console.log("데이터", data);
-    setWeather(data);
-    setLoading(false);
+
+    try {
+      let response = await fetch(url);
+
+      // HTTP 상태 코드 확인
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      let data = await response.json();
+      setWeather(data);
+    } catch (error) {
+      console.error("날씨 데이터를 가져오는데 실패했습니다:", error);
+      setApiError("날씨 정보를 가져오는데 실패했습니다. 다시 시도해주세요.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const getWeatherByCity = async () => {
+    setApiError(""); // 에러 초기화
     let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=4c972f331d80f188bdbb3159463aa34c&units=metric`;
     setLoading(true);
-    let response = await fetch(url);
-    let data = await response.json();
-    setWeather(data);
-    setLoading(false);
-    console.log("로딩 상태:", loading);
-    setActiveButton(city);
+
+    try {
+      let response = await fetch(url);
+
+      // HTTP 상태 코드 확인
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      let data = await response.json();
+      setWeather(data);
+      setActiveButton(city);
+    } catch (error) {
+      console.error("날씨 데이터를 가져오는데 실패했습니다:", error);
+      setApiError(`${city}의 날씨 정보를 가져오는데 실패했습니다.`);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // useEffect : 컴포넌트가 렌더링된 이후에 특정 작업을 수행하고 싶을 때 사용하는 훅
@@ -66,7 +102,7 @@ function App() {
   return (
     <div>
       {loading ? (
-        <div class="container">
+        <div className="container">
           <ClipLoader
             color="#f800cbff"
             loading={loading}
@@ -76,7 +112,13 @@ function App() {
           />
         </div>
       ) : (
-        <div class="container">
+        <div className="container">
+          {/* 에러 메시지 표시 */}
+          {apiError && (
+            <div className="alert alert-warning text-center my-2" role="alert">
+              {apiError}
+            </div>
+          )}
           <WeatherBox weather={weather} />
           <WeatherButton
             cities={cities}

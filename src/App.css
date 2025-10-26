@@ -59,3 +59,63 @@ body {
   font-weight: bold;
   text-transform: capitalize;
 }
+
+/* 모바일 반응형 */
+@media (max-width: 768px) {
+  .container {
+    padding: 20px;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .weather-box {
+    padding: 20px 40px;
+    margin: 10px;
+    width: 90%;
+    max-width: 350px;
+    font-size: 14px;
+  }
+
+  .weather-box h2 {
+    font-size: 1.8rem;
+  }
+
+  .weather-box h3 {
+    font-size: 1.1rem;
+  }
+
+  .weather-button {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 350px;
+  }
+
+  .weather-button .btn {
+    width: 100%;
+    max-width: 200px;
+    margin: 0 auto;
+    min-height: 44px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .weather-box {
+    padding: 15px 20px;
+    font-size: 13px;
+  }
+
+  .weather-box h2 {
+    font-size: 1.5rem;
+  }
+
+  .weather-box h3 {
+    font-size: 1rem;
+  }
+
+  .weather-button .btn {
+    font-size: 14px;
+    padding: 12px 16px;
+  }
+}
